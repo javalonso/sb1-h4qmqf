@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Receta Médica</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .info { margin-bottom: 20px; }
+        .medicamentos { width: 100%; border-collapse: collapse; }
+        .medicamentos th, .medicamentos td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        .footer { margin-top: 40px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Receta Médica</h1>
+        <p>Fecha: {{ receta.fecha_creacion|date:"d/m/Y" }}</p>
+    </div>
+
+    <div class="info">
+        <h3>Información del Paciente</h3>
+        <p>Nombre: {{ receta.cliente.nombre }} {{ receta.cliente.apellido }}</p>
+        <p>Edad: {{ receta.cliente.edad }} años</p>
+    </div>
+
+    <div class="info">
+        <h3>Medicamentos Recetados</h3>
+        <table class="medicamentos">
+            <thead>
+                <tr>
+                    <th>Medicamento</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th>Instrucciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for med in receta.medicamentoreceta_set.all %}
+                <tr>
+                    <td>{{ med.medicamento.nombre }}</td>
+                    <td>{{ med.cantidad }}</td>
+                    <td>{{ med.frecuencia }} {{ med.get_unidad_frecuencia_display }}</td>
+                    <td>{{ med.instrucciones }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if receta.notas %}
+    <div class="info">
+        <h3>Notas Adicionales</h3>
+        <p>{{ receta.notas }}</p>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>Dr. {{ receta.doctor.get_full_name }}</p>
+        <p>{{ receta.doctor.email }}</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Total: {{ total_clients }}</p>
+                <a href="{% url 'client_list' %}" class="btn btn-primary">Ver Clientes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Medicamentos</h5>
+                <p class="card-text">Total: {{ total_medicines }}</p>
+                <a href="{% url 'medicine_list' %}" class="btn btn-primary">Ver Medicamentos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Frecuencias</h5>
+                <p class="card-text">Total: {{ total_frequencies }}</p>
+                <a href="{% url 'frecuencia_list' %}" class="btn btn-primary">Ver Frecuencias</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Recetas</h5>
+                <p class="card-text">Total: {{ total_prescriptions }}</p>
+                <a href="{% url 'prescription_list' %}" class="btn btn-primary">Ver Recetas</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

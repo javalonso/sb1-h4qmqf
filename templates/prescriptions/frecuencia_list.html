@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Frecuencias de Medicación</h2>
+    <a href="{% url 'frecuencia_create' %}" class="btn btn-primary">Nueva Frecuencia</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="input-group">
+            <input type="text" id="frecuenciaSearch" class="form-control" placeholder="Buscar frecuencias...">
+            <button class="btn btn-outline-secondary" type="button">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="frequenciesTable">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Intervalo (horas)</th>
+                        <th>Estado</th>
+                        <th class="no-sort">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for frecuencia in frecuencias %}
+                    <tr>
+                        <td>{{ frecuencia.nombre }}</td>
+                        <td>{{ frecuencia.intervalo_horas }}</td>
+                        <td>
+                            {% if frecuencia.activo %}
+                            <span class="badge bg-success">Activo</span>
+                            {% else %}
+                            <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'frecuencia_edit' frecuencia.id %}" class="btn btn-sm btn-outline-primary me-2">Editar</a>
+                            <a href="{% url 'frecuencia_delete' frecuencia.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No hay frecuencias registradas</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'js/tableUtils.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setupTableSorting('frequenciesTable');
+    
+    document.getElementById('frecuenciaSearch').addEventListener('input', function(e) {
+        const searchText = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#frequenciesTable tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchText) ? '' : 'none';
+        });
+    });
+});
+</script>
+{% endblock %}
